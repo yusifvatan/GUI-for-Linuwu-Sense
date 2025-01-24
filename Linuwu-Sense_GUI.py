@@ -4,12 +4,10 @@ from tkinter import ttk, colorchooser
 from tkinter import messagebox
 from ttkthemes import ThemedTk
 
-
 # Function to convert RGB to hex
 def rgb_to_hex(rgb):
     r, g, b = map(int, rgb.split(","))
     return f"{r:02x}{g:02x}{b:02x}"
-
 
 # Function to apply per zone mode
 def apply_per_zone_mode(zone1, zone2, zone3, zone4):
@@ -26,7 +24,6 @@ def apply_per_zone_mode(zone1, zone2, zone3, zone4):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Function to apply four zone mode
 def apply_four_zone_mode(mode, speed, brightness, direction, red, green, blue):
     try:
@@ -36,7 +33,6 @@ def apply_four_zone_mode(mode, speed, brightness, direction, red, green, blue):
         messagebox.showinfo("Success", "Four-Zone Mode applied successfully!")
     except Exception as e:
         messagebox.showerror("Error", str(e))
-
 
 # Function to set backlight timeout
 def set_backlight_timeout(state):
@@ -48,7 +44,6 @@ def set_backlight_timeout(state):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Function to check backlight timeout
 def check_backlight_timeout():
     try:
@@ -58,7 +53,6 @@ def check_backlight_timeout():
     except Exception as e:
         messagebox.showerror("Error", str(e))
         return None
-
 
 # Function to apply fan speed
 def apply_fan_speed(cpu_speed, gpu_speed):
@@ -74,7 +68,6 @@ def apply_fan_speed(cpu_speed, gpu_speed):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Color picker function
 def color_picker(label, preview_label):
     color_code = colorchooser.askcolor(title="Choose color")
@@ -82,7 +75,6 @@ def color_picker(label, preview_label):
         r, g, b = map(int, color_code[0])
         label.config(text=f"{r},{g},{b}")
         preview_label.config(background=f"#{r:02x}{g:02x}{b:02x}")
-
 
 # Battery Calibration function
 def start_stop_battery_calibration(state):
@@ -94,7 +86,6 @@ def start_stop_battery_calibration(state):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Battery Limiter function
 def set_battery_limiter(state):
     try:
@@ -105,7 +96,6 @@ def set_battery_limiter(state):
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Function to check the status of Battery Calibration
 def check_battery_calibration_status():
     try:
@@ -114,7 +104,6 @@ def check_battery_calibration_status():
             messagebox.showinfo("Battery Calibration Status", f"Current status: {'Started' if status == '1' else 'Stopped'}")
     except Exception as e:
         messagebox.showerror("Error", str(e))
-
 
 # Function to check the status of Battery Limiter
 def check_battery_limiter_status():
@@ -125,12 +114,31 @@ def check_battery_limiter_status():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-
 # Function to create the GUI
 def create_gui():
     root = ThemedTk(theme="arc")  # Using 'arc' as a modern theme resembling Azure's style
     root.title("Keyboard Backlight & Fan Speed Controller")
-    root.geometry("800x1000")
+    root.geometry("800x1200")
+
+    # Theme selection
+    theme_frame = ttk.Frame(root)
+    theme_frame.pack(pady=10)
+
+    ttk.Label(theme_frame, text="Select Theme:").pack(side="left", padx=5)
+    theme_var = tk.StringVar(value="arc")  # Default theme
+    theme_dropdown = ttk.Combobox(
+        theme_frame,
+        textvariable=theme_var,
+        values=["arc", "default", "black", "clearlooks", "classic", "dark", "kroc", "radiance", "scidgrey"],
+        state="readonly"
+    )
+    theme_dropdown.pack(side="left", padx=5)
+
+    def change_theme():
+        selected_theme = theme_var.get()
+        root.set_theme(selected_theme)
+
+    theme_dropdown.bind("<<ComboboxSelected>>", lambda event: change_theme())
 
     # Create the main notebook (tabbed interface)
     notebook = ttk.Notebook(root)
@@ -354,9 +362,6 @@ def create_gui():
     ).pack(pady=5)
 
     root.mainloop()
-
-
-
 
 if __name__ == "__main__":
     create_gui()
