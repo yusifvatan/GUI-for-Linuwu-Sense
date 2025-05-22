@@ -24,7 +24,12 @@ GUI(Needs improvents):
 
 ### 1. Prerequisites
 
+### Kernel Module
+This application requires the [Linuwu-Sense](https://github.com/0x7375646F/Linuwu-Sense) kernel module installed.
+
+### Dependencies
 #### Arch Linux:
+
 ```bash
 sudo pacman -S python python-pip tk gtk3 gobject-introspection libappindicator-gtk3
 ```
